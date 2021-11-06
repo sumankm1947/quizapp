@@ -10,6 +10,16 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final _nameController = TextEditingController();
+  void onSubmit() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => QuizScreen(userName: _nameController.text),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +41,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 30,
-                      color: heroGreen1,
+                      color: heroRed1,
                     ),
                   ),
                 ),
@@ -67,23 +77,19 @@ class _MyHomePageState extends State<MyHomePage> {
                     prefixIcon: Icon(Icons.account_circle),
                     labelText: 'Name',
                   ),
-                  onSubmitted: (_) => {},
+                  onSubmitted: (_) => onSubmit(),
+                  controller: _nameController,
                 ),
               ),
               Spacer(),
               Container(
                 // color: Theme.of(context).backgroundColor,
-
                 height: MediaQuery.of(context).size.height * 0.07,
                 width: MediaQuery.of(context).size.width * 0.4,
                 child: TextButton(
-                  onPressed: () => {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => QuizScreen(),
-                      ),
-                    )
+                  onPressed: () {
+                    if (_nameController.text.isEmpty) return;
+                    onSubmit();
                   },
                   child: Text(
                     'start',

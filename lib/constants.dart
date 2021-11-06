@@ -6,6 +6,7 @@ const heroBackgroundColorLight = Colors.white;
 
 const heroGreen1 = Color(0xff00b52d);
 const heroCyan = Colors.cyan;
+const heroRed1 = Color(0xffff4545);
 
 const heroBlack = Colors.black;
 final heroPrimary = Colors.grey.shade700;

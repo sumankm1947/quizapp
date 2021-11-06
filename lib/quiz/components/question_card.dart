@@ -13,13 +13,13 @@ class QuestionCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20),
+      padding: EdgeInsets.symmetric(horizontal: 40),
       width: double.infinity,
       child: SingleChildScrollView(
         child: Column(
           children: [
             SizedBox(
-              height: 60,
+              height: 30,
             ),
             Text(
               sample_data[questionCounter]['question'],
@@ -28,19 +28,28 @@ class QuestionCard extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: 30,
+              height: 60,
             ),
             InkWell(
               onTap: () => optionController(0),
               child: Options(optionCount: 0, questionCount: questionCounter),
             ),
+            SizedBox(
+              height: 30,
+            ),
             InkWell(
               onTap: () => optionController(1),
               child: Options(optionCount: 1, questionCount: questionCounter),
             ),
+            SizedBox(
+              height: 30,
+            ),
             InkWell(
               onTap: () => optionController(2),
               child: Options(optionCount: 2, questionCount: questionCounter),
+            ),
+            SizedBox(
+              height: 30,
             ),
             InkWell(
               onTap: () => optionController(3),

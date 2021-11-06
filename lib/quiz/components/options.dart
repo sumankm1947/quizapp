@@ -13,10 +13,25 @@ class Options extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 50,
-      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
       decoration: BoxDecoration(
-        border: Border.all(color: heroSecondary, width: 1.5),
+        border: Border.all(color: Colors.grey.shade300, width: 2),
         borderRadius: BorderRadius.circular(20),
+        color: heroBackgroundColor,
+        boxShadow: [
+          BoxShadow(
+            color: heroBackgroundColorDark,
+            offset: Offset(5.0, 5.0),
+            blurRadius: 10.0,
+            spreadRadius: 2.0,
+          ),
+          BoxShadow(
+            color: heroBackgroundColorLight,
+            offset: Offset(-5.0, -5.0),
+            blurRadius: 10.0,
+            spreadRadius: 2.0,
+          ),
+        ],
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 9.0),

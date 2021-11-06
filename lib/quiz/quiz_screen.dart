@@ -9,7 +9,8 @@ import '../results/result.dart';
 import '../constants.dart';
 
 class QuizScreen extends StatefulWidget {
-  const QuizScreen({Key? key}) : super(key: key);
+  final String userName;
+  const QuizScreen({Key? key, required this.userName}) : super(key: key);
 
   @override
   _QuizScreenState createState() => _QuizScreenState();
@@ -47,8 +48,6 @@ class _QuizScreenState extends State<QuizScreen> {
     _timer = timeForEachQuestion;
     if (choice == sample_data[_count]["answer_index"]) {
       _totalMarks = _totalMarks + 1;
-    } else {
-      print('Wrong');
     }
     setState(() {
       _count = _count + 1;
@@ -58,42 +57,64 @@ class _QuizScreenState extends State<QuizScreen> {
   @override
   Widget build(BuildContext context) {
     return _count < sample_data.length
-        ? Scaffold(
-            backgroundColor: heroBackgroundColor,
-            extendBodyBehindAppBar: true,
-            appBar: AppBar(
+        ? WillPopScope(
+            child: Scaffold(
               backgroundColor: heroBackgroundColor,
-              elevation: 0,
-              actions: [
-                TextButton(
-                  onPressed: () => {},
-                  child: Text('Skip'),
-                ),
-              ],
-            ),
-            body: SafeArea(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: ProgressBar(
-                      count: _count,
-                      optionController: _optionController,
-                      counter: _timer,
-                    ),
-                  ),
-                  Expanded(
-                    flex: 3,
-                    child: QuestionCard(
-                        questionCounter: _count,
-                        optionController: _optionController),
+              extendBodyBehindAppBar: true,
+              appBar: AppBar(
+                backgroundColor: heroBackgroundColor,
+                elevation: 0,
+                actions: [
+                  TextButton(
+                    onPressed: () => _optionController(-1),
+                    child: Text('Skip'),
                   ),
                 ],
               ),
+              body: SafeArea(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: ProgressBar(
+                        count: _count,
+                        optionController: _optionController,
+                        counter: _timer,
+                      ),
+                    ),
+                    Expanded(
+                      flex: 3,
+                      child: QuestionCard(
+                          questionCounter: _count,
+                          optionController: _optionController),
+                    ),
+                  ],
+                ),
+              ),
             ),
-          )
-        : Results(totalMarks: _totalMarks);
+            onWillPop: () async {
+              bool willLeave = false;
+              await showDialog(
+                context: context,
+                builder: (_) => AlertDialog(
+                  title: Text('Are you sure want to leave?'),
+                  actions: [
+                    TextButton(
+                        onPressed: () {
+                          willLeave = true;
+                          Navigator.of(context).pop();
+                        },
+                        child: Text('Yes')),
+                    TextButton(
+                        onPressed: () => Navigator.of(context).pop(),
+                        child: Text('No'))
+                  ],
+                ),
+              );
+              return willLeave;
+            })
+        : Results(totalMarks: _totalMarks, userName: widget.userName);
   }
 }
